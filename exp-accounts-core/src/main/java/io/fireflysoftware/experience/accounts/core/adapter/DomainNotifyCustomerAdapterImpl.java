@@ -26,15 +26,15 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-@Component
+@Component("domainNotifyCustomerAdapter")
 @ConditionalOnProperty(name = "firefly.experience.accounts.ports.notify-customer", havingValue = "domain", matchIfMissing = true)
-public class DomainNotifyCustomerAdapter implements NotifyCustomer {
+public class DomainNotifyCustomerAdapterImpl implements NotifyCustomer {
 
     private static final String CHANNEL = "AUTO";
 
     private final NotificationsApi notificationsApi;
 
-    public DomainNotifyCustomerAdapter(NotificationsApi notificationsApi) {
+    public DomainNotifyCustomerAdapterImpl(NotificationsApi notificationsApi) {
         this.notificationsApi = notificationsApi;
     }
 

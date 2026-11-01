@@ -32,13 +32,13 @@ import java.util.UUID;
  * This adapter still calls the domain read. Replace this class when the domain adds an
  * update operation or when a process engine should apply the change.
  */
-@Component
+@Component("domainUpdateAccountAdapter")
 @ConditionalOnProperty(name = "firefly.experience.accounts.ports.update-account", havingValue = "domain", matchIfMissing = true)
-public class DomainUpdateAccountAdapter implements UpdateAccount {
+public class DomainUpdateAccountAdapterImpl implements UpdateAccount {
 
     private final ReadAccount readAccount;
 
-    public DomainUpdateAccountAdapter(ReadAccount readAccount) {
+    public DomainUpdateAccountAdapterImpl(ReadAccount readAccount) {
         this.readAccount = readAccount;
     }
 

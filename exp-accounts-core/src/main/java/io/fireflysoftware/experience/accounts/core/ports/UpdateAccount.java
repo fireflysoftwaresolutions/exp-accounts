@@ -25,7 +25,7 @@ import java.util.UUID;
 
 /**
  * Updates an account. domain-banking-accounts does not yet expose a general update operation.
- * {@code DomainUpdateAccountAdapter} reads the account from the domain and is the class a
+ * {@code DomainUpdateAccountAdapterImpl} reads the account from the domain and is the class a
  * deployment replaces when that operation exists, or when a process engine should perform the update.
  */
 public interface UpdateAccount {

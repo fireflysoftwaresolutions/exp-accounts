@@ -64,7 +64,7 @@ class DomainAccountAdapterTest {
         when(accountsApi.openAccount(any(OpenAccountCommand.class), any(String.class)))
                 .thenReturn(Mono.just(sdkResponse));
 
-        StepVerifier.create(new DomainOpenAccountAdapter(accountsApi).open(request))
+        StepVerifier.create(new DomainOpenAccountAdapterImpl(accountsApi).open(request))
                 .assertNext(response -> {
                     assertThat(response.getAccountId()).isEqualTo(accountId);
                     assertThat(response.getContractId()).isEqualTo(contractId);
@@ -85,7 +85,7 @@ class DomainAccountAdapterTest {
         when(accountBackofficeApi.getAccount(eq(accountId), any(String.class)))
                 .thenReturn(Mono.just(sdkResponse));
 
-        DomainReadAccountAdapter adapter = new DomainReadAccountAdapter(accountBackofficeApi);
+        DomainReadAccountAdapterImpl adapter = new DomainReadAccountAdapterImpl(accountBackofficeApi);
         StepVerifier.create(adapter.get(accountId))
                 .assertNext(summary -> {
                     assertThat(summary.getAccountType()).isEqualTo("SAVINGS");
@@ -104,9 +104,9 @@ class DomainAccountAdapterTest {
         sdkResponse.setAccountType(AccountDTO.AccountTypeEnum.SAVINGS);
         when(accountBackofficeApi.getAccount(eq(accountId), any(String.class)))
                 .thenReturn(Mono.just(sdkResponse));
-        DomainReadAccountAdapter read = new DomainReadAccountAdapter(accountBackofficeApi);
+        DomainReadAccountAdapterImpl read = new DomainReadAccountAdapterImpl(accountBackofficeApi);
 
-        StepVerifier.create(new DomainUpdateAccountAdapter(read).update(accountId,
+        StepVerifier.create(new DomainUpdateAccountAdapterImpl(read).update(accountId,
                         UpdateAccountRequest.builder().currency("USD").build()))
                 .assertNext(summary -> assertThat(summary.getCurrency()).isEqualTo("USD"))
                 .verifyComplete();
@@ -119,7 +119,7 @@ class DomainAccountAdapterTest {
         when(accountsApi.closeAccount(eq(accountId), eq("Customer request"), any(String.class)))
                 .thenReturn(Mono.empty());
 
-        StepVerifier.create(new DomainCloseAccountAdapter(accountsApi).close(accountId, "Customer request"))
+        StepVerifier.create(new DomainCloseAccountAdapterImpl(accountsApi).close(accountId, "Customer request"))
                 .verifyComplete();
     }
 }

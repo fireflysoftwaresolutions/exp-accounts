@@ -27,20 +27,20 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-@Component
+@Component("domainReadAccountAdapter")
 @ConditionalOnProperty(name = "firefly.experience.accounts.ports.read-account", havingValue = "domain", matchIfMissing = true)
-public class DomainReadAccountAdapter implements ReadAccount {
+public class DomainReadAccountAdapterImpl implements ReadAccount {
 
     private final AccountBackofficeApi accountBackofficeApi;
 
-    public DomainReadAccountAdapter(AccountBackofficeApi accountBackofficeApi) {
+    public DomainReadAccountAdapterImpl(AccountBackofficeApi accountBackofficeApi) {
         this.accountBackofficeApi = accountBackofficeApi;
     }
 
     @Override
     public Mono<AccountSummaryResponse> get(UUID accountId) {
         return accountBackofficeApi.getAccount(accountId, UUID.randomUUID().toString())
-                .map(DomainReadAccountAdapter::toSummary);
+                .map(DomainReadAccountAdapterImpl::toSummary);
     }
 
     public static AccountSummaryResponse toSummary(AccountDTO account) {
