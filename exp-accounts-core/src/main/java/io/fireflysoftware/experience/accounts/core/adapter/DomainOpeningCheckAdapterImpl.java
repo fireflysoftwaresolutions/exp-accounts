@@ -28,13 +28,13 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-@Component
+@Component("domainOpeningCheckAdapter")
 @ConditionalOnProperty(name = "firefly.experience.accounts.ports.open-account", havingValue = "domain", matchIfMissing = true)
-public class DomainOpeningCheckAdapter implements CheckEligibility, VerifyDocuments {
+public class DomainOpeningCheckAdapterImpl implements CheckEligibility, VerifyDocuments {
 
     private final AccountsApi accountsApi;
 
-    public DomainOpeningCheckAdapter(AccountsApi accountsApi) {
+    public DomainOpeningCheckAdapterImpl(AccountsApi accountsApi) {
         this.accountsApi = accountsApi;
     }
 

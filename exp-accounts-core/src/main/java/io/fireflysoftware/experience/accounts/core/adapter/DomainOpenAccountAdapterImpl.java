@@ -28,13 +28,13 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-@Component
+@Component("domainOpenAccountAdapter")
 @ConditionalOnProperty(name = "firefly.experience.accounts.ports.open-account", havingValue = "domain", matchIfMissing = true)
-public class DomainOpenAccountAdapter implements OpenAccount {
+public class DomainOpenAccountAdapterImpl implements OpenAccount {
 
     private final AccountsApi accountsApi;
 
-    public DomainOpenAccountAdapter(AccountsApi accountsApi) {
+    public DomainOpenAccountAdapterImpl(AccountsApi accountsApi) {
         this.accountsApi = accountsApi;
     }
 

@@ -17,26 +17,24 @@
 
 package io.fireflysoftware.experience.accounts.core.adapter;
 
-import io.fireflysoftware.domain.banking.accounts.sdk.api.AccountsApi;
-import io.fireflysoftware.experience.accounts.core.ports.CloseAccount;
+import io.fireflysoftware.experience.accounts.core.ports.AccessDecision;
+import io.fireflysoftware.experience.accounts.core.ports.AccessPort;
+import io.fireflysoftware.experience.accounts.core.ports.AccessRequest;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
-@Component
-@ConditionalOnProperty(name = "firefly.experience.accounts.ports.close-account", havingValue = "domain", matchIfMissing = true)
-public class DomainCloseAccountAdapter implements CloseAccount {
-
-    private final AccountsApi accountsApi;
-
-    public DomainCloseAccountAdapter(AccountsApi accountsApi) {
-        this.accountsApi = accountsApi;
-    }
+/**
+ * Allows every sample journey so OpenPlatform can run without an external identity provider.
+ * Replace it by setting {@code firefly.experience.access.adapter=domain}, which selects
+ * {@link DomainAccessAdapterImpl} and calls domain-core-security-center.
+ */
+@Component("sandboxAccessAdapter")
+@ConditionalOnProperty(name = "firefly.experience.access.adapter", havingValue = "sandbox")
+public class SandboxAccessAdapterImpl implements AccessPort {
 
     @Override
-    public Mono<Void> close(UUID accountId, String reason) {
-        return accountsApi.closeAccount(accountId, reason, UUID.randomUUID().toString());
+    public Mono<AccessDecision> check(AccessRequest request) {
+        return Mono.just(AccessDecision.grant());
     }
 }
